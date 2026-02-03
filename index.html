@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>PDF Yükleme</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 80%;
+    height: 50%;
+}
+.box {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+.box:hover {
+    transform: scale(1.05);
+    background: rgba(255,255,255,0.35);
+}
+button {
+    position: fixed;
+    bottom: 40px;
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="box" onclick="uploadPDF('gelmeyenler')">Gelmeyenler</div>
+    <div class="box" onclick="uploadPDF('zamaninda')">Zamanında Gelmeyenler</div>
+    <div class="box" onclick="uploadPDF('izinli')">İzinli</div>
+</div>
+
+<button onclick="location.href='goruntule.html'">PDF'leri Gör</button>
+
+<input type="file" id="fileInput" accept="application/pdf" hidden>
+
+<script>
+let currentKey = "";
+
+function uploadPDF(key) {
+    currentKey = key;
+    document.getElementById("fileInput").click();
+}
+
+document.getElementById("fileInput").addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+        localStorage.setItem(currentKey, e.target.result);
+        alert("PDF yüklendi!");
+    };
+    reader.readAsDataURL(file);
+});
+</script>
+
+</body>
+</html>
